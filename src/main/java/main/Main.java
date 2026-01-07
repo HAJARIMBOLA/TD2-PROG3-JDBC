@@ -9,6 +9,7 @@ public class Main {
         DishDao dao = new DishDao();
         Dish dish = dao.findDishById(1);
 
+        System.out.println("Plat : " + dish.getName());
         System.out.println("Coût : " + dish.getDishCost());
         try {
             System.out.println("Marge : " + dish.getGrossMargin());

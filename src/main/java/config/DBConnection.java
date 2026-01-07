@@ -4,12 +4,11 @@ package config;
 // gere la connexion a la base de donnees PostgreSQL
 import java.sql.Connection;
 import java.sql.DriverManager;
-
 public class DBConnection {
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/hotely",
+                "jdbc:postgresql://localhost:5432/mini_dish_db",
                 "postgres",
                 "azerty"
             );
