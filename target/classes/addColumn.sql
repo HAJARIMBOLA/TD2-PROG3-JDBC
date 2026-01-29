@@ -1,5 +1,5 @@
 ALTER TABLE dish
-ADD COLUMN IF NOT EXISTS selling_price numeric(10,2);
+    ADD COLUMN IF NOT EXISTS selling_price numeric(10,2);
 
 update dish
 set selling_price = 2000.00

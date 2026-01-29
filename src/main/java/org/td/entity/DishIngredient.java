@@ -3,86 +3,112 @@ package org.td.entity;
 import java.util.Objects;
 
 public class DishIngredient {
-    private int id;
-    private int id_dish;
-    private int id_ingredient;
-    private double quantity_required;
+
+    private Integer id;
+    private Dish dish;
+    private Ingredient ingredient;
+    private double quantityRequired;
     private UnitType unit;
 
-    public DishIngredient(int id, int idDish, int idIngredient, double quantityRequired, UnitType unit) {
-        this.id = id;
-        id_dish = idDish;
-        id_ingredient = idIngredient;
-        quantity_required = quantityRequired;
-        this.unit = unit;
+    // ✅ CONSTRUCTEUR VIDE (OBLIGATOIRE)
+    public DishIngredient() {
     }
-    public DishIngredient( int idDish, int idIngredient, double quantityRequired, UnitType unit) {
-        id_dish = idDish;
-        id_ingredient = idIngredient;
-        quantity_required = quantityRequired;
+
+    public DishIngredient(Integer id, Dish dish, Ingredient ingredient,
+                          double quantityRequired, UnitType unit) {
+        this.id = id;
+        this.dish = dish;
+        this.ingredient = ingredient;
+        this.quantityRequired = quantityRequired;
         this.unit = unit;
     }
 
-    public int getId() {
+    // Constructeur sans id (insertion DB)
+    public DishIngredient(Dish dish, Ingredient ingredient,
+                          double quantityRequired, UnitType unit) {
+        this(null, dish, ingredient, quantityRequired, unit);
+    }
+
+    /* GETTERS */
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Dish getDish() {
+        return dish;
     }
 
-    public int getId_dish() {
-        return id_dish;
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
-    public void setId_dish(int id_dish) {
-        this.id_dish = id_dish;
-    }
-
-    public int getId_ingredient() {
-        return id_ingredient;
-    }
-
-    public void setId_ingredient(int id_ingredient) {
-        this.id_ingredient = id_ingredient;
-    }
-
-    public double getQuantity_required() {
-        return quantity_required;
-    }
-
-    public void setQuantity_required(double quantity_required) {
-        this.quantity_required = quantity_required;
+    public double getQuantityRequired() {
+        return quantityRequired;
     }
 
     public UnitType getUnit() {
         return unit;
     }
 
+    /* SETTERS */
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public void setQuantityRequired(double quantityRequired) {
+        this.quantityRequired = quantityRequired;
+    }
+
     public void setUnit(UnitType unit) {
         this.unit = unit;
+    }
+
+    /* UTILS */
+
+    public Integer getDishId() {
+        return dish != null ? dish.getId() : null;
+    }
+
+    public Integer getIngredientId() {
+        return ingredient != null ? ingredient.getId() : null;
     }
 
     @Override
     public String toString() {
         return "DishIngredient{" +
                 "id=" + id +
-                ", id_dish=" + id_dish +
-                ", id_ingredient=" + id_ingredient +
-                ", quantity_required=" + quantity_required +
+                ", dishId=" + getDishId() +
+                ", ingredientId=" + getIngredientId() +
+                ", quantityRequired=" + quantityRequired +
                 ", unit=" + unit +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof DishIngredient)) return false;
         DishIngredient that = (DishIngredient) o;
-        return id == that.id && id_dish == that.id_dish && id_ingredient == that.id_ingredient && quantity_required == that.quantity_required && unit == that.unit;
+
+        if (this.id == null || that.id == null) {
+            return false;
+        }
+
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, id_dish, id_ingredient, quantity_required, unit);
+        return Objects.hash(id);
     }
 }

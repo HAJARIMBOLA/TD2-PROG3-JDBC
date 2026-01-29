@@ -8,24 +8,26 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    public Connection getConnection() {
+    private static final Dotenv dotenv = Dotenv.load();
+
+    public static Connection getConnection() {
         try {
-            Dotenv dotenv = Dotenv.load();
-            String jdbcURl = dotenv.get("DB_URL");
+            String jdbcUrl = dotenv.get("DB_URL");
             String user = dotenv.get("DB_USERNAME");
             String password = dotenv.get("DB_PASSWORD");
-            return DriverManager.getConnection(jdbcURl, user, password);
+
+            return DriverManager.getConnection(jdbcUrl, user, password);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur de connexion à la base de données", e);
         }
     }
 
-    public void closeConnection(Connection connection) {
+    public static void closeConnection(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Erreur lors de la fermeture de la connexion", e);
             }
         }
     }

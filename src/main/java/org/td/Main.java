@@ -13,12 +13,10 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-
-        /* comment out every test that would throw error before running all test to show all normal result */
         DataRetriever dr = new DataRetriever();
 
-Dish dish = dr.findDishById(2);
+        Dish dish = dr.findDishById(2);
         System.out.println(dish.getGrossMargin());
-
     }
+
 }
