@@ -8,9 +8,13 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final Dotenv dotenv = Dotenv.load();
+    private final Dotenv dotenv;
 
-    public static Connection getConnection() {
+    public DBConnection() {
+        this.dotenv = Dotenv.load();
+    }
+
+    public Connection getConnection() {
         try {
             String jdbcUrl = dotenv.get("DB_URL");
             String user = dotenv.get("DB_USERNAME");
@@ -22,12 +26,15 @@ public class DBConnection {
         }
     }
 
-    public static void closeConnection(Connection connection) {
+    public void closeConnection(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new RuntimeException("Erreur lors de la fermeture de la connexion", e);
+                throw new RuntimeException(
+                        "Erreur lors de la fermeture de la connexion",
+                        e
+                );
             }
         }
     }

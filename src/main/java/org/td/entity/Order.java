@@ -10,18 +10,18 @@ public class Order {
     private String reference;
     private Instant creationDatetime;
     private List<DishOrder> dishOrders;
+    private TableOrder tableOrder;
 
     public Order() {
     }
 
-    public Order(Integer id, String reference, Instant creationDatetime, List<DishOrder> dishOrders) {
+    public Order(Integer id, String reference, Instant creationDatetime, List<DishOrder> dishOrders, TableOrder tableOrder) {
         this.id = id;
         this.reference = reference;
         this.creationDatetime = creationDatetime;
         this.dishOrders = dishOrders;
+        this.tableOrder = tableOrder;
     }
-
-    /* GETTERS / SETTERS */
 
     public Integer getId() {
         return id;
@@ -55,48 +55,34 @@ public class Order {
         this.dishOrders = dishOrders;
     }
 
-    /* MÉTHODES MÉTIER */
+    public TableOrder getTableOrder() {
+        return tableOrder;
+    }
+
+    public void setTableOrder(TableOrder tableOrder) {
+        this.tableOrder = tableOrder;
+    }
 
     public Double getTotalAmountWithoutVAT() {
-
         if (dishOrders == null || dishOrders.isEmpty()) {
             return 0.0;
         }
-
-        double totalAmount = 0.0;
-
+        double total = 0.0;
         for (DishOrder dishOrder : dishOrders) {
-
-            if (dishOrder == null || dishOrder.getDish() == null
-                    || dishOrder.getDish().getPrice() == null) {
-                continue;
-            }
-
-            totalAmount += dishOrder.getDish().getPrice()
-                    * dishOrder.getQuantity();
+            total += dishOrder.getDish().getPrice() * dishOrder.getQuantity();
         }
-
-        return totalAmount;
+        return total;
     }
 
     public Double getTotalAmountWithVAT() {
-
-        double amountHT = getTotalAmountWithoutVAT();
-        return amountHT + (amountHT * 0.2);
+        return getTotalAmountWithoutVAT() * 1.2;
     }
-
-    /* EQUALS / HASHCODE */
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-
-        if (this.id == null || order.id == null) {
-            return false;
-        }
-
         return Objects.equals(id, order.id);
     }
 
@@ -105,8 +91,6 @@ public class Order {
         return Objects.hash(id);
     }
 
-    /* TO STRING */
-
     @Override
     public String toString() {
         return "Order{" +
@@ -114,6 +98,7 @@ public class Order {
                 ", reference='" + reference + '\'' +
                 ", creationDatetime=" + creationDatetime +
                 ", dishOrders=" + dishOrders +
+                ", tableOrder=" + tableOrder +
                 '}';
     }
 }
